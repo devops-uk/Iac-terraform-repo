@@ -1,16 +1,9 @@
+
 pipeline {
     agent any
 
-    triggers {
-        githubPush()
-    }
-
     environment {
-        AWS_DEFAULT_REGION = "us-east-1"
-    }
-
-    tools {
-        terraform 'terraform'
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
@@ -18,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/your-org/iac-terraform-repo.git'
+                    url: 'https://github.com/devops-uk/iac-terraform-repo.git'
             }
         }
 
@@ -53,15 +46,6 @@ pipeline {
                     sh 'terraform apply -auto-approve'
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Infrastructure created successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
         }
     }
 }
